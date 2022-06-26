@@ -11,9 +11,10 @@ class FolderModel {
   FolderModel({
     this.id,
     required this.title,
-    this.description,
+    String? description,
     this.created,
-  });
+  })  : description = description == '' ? null : description,
+        assert(title != '');
 
   factory FolderModel.fromEntity(Folder entity) {
     return FolderModel(

@@ -5,7 +5,7 @@ part 'folder.g.dart';
 @Collection()
 class Folder {
   @Id()
-  late final int? id;
+  int? id;
 
   late String title;
   late String? description;

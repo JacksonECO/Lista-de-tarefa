@@ -31,6 +31,7 @@ class FolderService {
   }
 
   Future<void> delete(int id) async {
+    // TODO: delete tasks from folder too
     final connection = await _database.openConnectionIsa();
     final isDelete = await connection.writeTxn((isar) async {
       await isar.folders.delete(id);

@@ -5,7 +5,7 @@ part 'task.g.dart';
 @Collection()
 class Task {
   @Id()
-  late final int? id;
+  int? id;
 
   IsarLink<Folder> folder = IsarLink<Folder>();
 

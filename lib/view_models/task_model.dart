@@ -19,11 +19,12 @@ class TaskModel {
     required this.folder,
     this.completed = false,
     this.id,
-    this.description,
+    String? description,
     this.lastModified,
     this.created,
     this.completedDate,
-  });
+  })  : description = description == '' ? null : description,
+        assert(title != '');
 
   factory TaskModel.fromEntity(Task entity) {
     return TaskModel(
@@ -49,8 +50,6 @@ class TaskModel {
       ..created = created!
       ..completedDate = completedDate;
   }
-
-
 
   TaskModel copyWith({
     int? id,
