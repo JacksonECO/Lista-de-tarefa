@@ -15,11 +15,6 @@ class TaskPage extends StatelessWidget {
         centerTitle: true,
         title: Text(controller.folder.title),
         actions: [
-          IconButton(
-            splashColor: Colors.transparent,
-            icon: const Icon(Icons.delete),
-            onPressed: () {},
-          ),
           Observer(builder: (_) {
             return IconButton(
               icon: Icon(controller.isViewCompleted ? Icons.remove_circle_outline_sharp : Icons.check_circle),

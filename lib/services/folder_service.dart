@@ -31,13 +31,20 @@ class FolderService {
   }
 
   Future<void> delete(int id) async {
-    // TODO: delete tasks from folder too
     final connection = await _database.openConnectionIsa();
-    final isDelete = await connection.writeTxn((isar) async {
-      await isar.folders.delete(id);
+    final isDelete = await connection.writeTxn<bool>((isar) async {
+      final folderTasks = await isar.tasks.filter().folderIdEqualTo(id).findAll();
+
+      var listFuture = <Future>[];
+      for (var i = 0; i < folderTasks.length; i++) {
+        listFuture.add(isar.tasks.delete(folderTasks[i].id!));
+      }
+      await Future.wait(listFuture);
+
+      return await isar.folders.delete(id);
     });
     if (!isDelete) {
-      throw Exception('Não foi possível deletar a pasta');
+      throw Exception('Error deleting folder');
     }
   }
 }

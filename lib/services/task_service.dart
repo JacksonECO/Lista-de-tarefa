@@ -46,10 +46,10 @@ class TaskService {
   Future<void> delete(int id) async {
     final connection = await _database.openConnectionIsa();
     final isDelete = await connection.writeTxn((isar) async {
-      await isar.tasks.delete(id);
+      return await isar.tasks.delete(id);
     });
     if (!isDelete) {
-      throw Exception('Não foi possível deletar a pasta');
+      throw Exception('Error deleting task');
     }
   }
 
