@@ -4,7 +4,8 @@ import 'package:lista_de_tarefa/widget/button_loading.dart';
 
 class TextFieldTaskWidget extends StatefulWidget {
   final TaskController controller;
-  const TextFieldTaskWidget({super.key, required this.controller});
+  final ScrollController scrollController;
+  const TextFieldTaskWidget({super.key, required this.controller, required this.scrollController});
 
   @override
   State<TextFieldTaskWidget> createState() => _TextFieldTaskWidgetState();
@@ -17,6 +18,18 @@ class _TextFieldTaskWidgetState extends State<TextFieldTaskWidget> {
   void dispose() {
     _taskController.dispose();
     super.dispose();
+  }
+
+  Future<void> onSend() async {
+    await widget.controller.addTask(_taskController.text);
+    _taskController.clear();
+    if (widget.scrollController.hasClients) {
+      widget.scrollController.animateTo(
+        widget.scrollController.position.maxScrollExtent + 50,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOutQuad,
+      );
+    }
   }
 
   @override
@@ -58,6 +71,7 @@ class _TextFieldTaskWidgetState extends State<TextFieldTaskWidget> {
                   fontSize: 13,
                 ),
               ),
+              onEditingComplete: onSend,
             ),
           ),
           ButtonLoading(
@@ -65,10 +79,7 @@ class _TextFieldTaskWidgetState extends State<TextFieldTaskWidget> {
             width: 70,
             radius: 20,
             text: 'Add',
-            onTap: () async {
-              await widget.controller.addTask(_taskController.text);
-              _taskController.clear();
-            },
+            onTap: onSend,
           ),
         ],
       ),
