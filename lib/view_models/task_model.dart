@@ -6,7 +6,7 @@ class TaskModel {
   String title;
   String? description;
 
-  final IsarLink<Folder> folder;
+  final int folderId;
 
   bool completed;
   DateTime? completedDate;
@@ -16,7 +16,7 @@ class TaskModel {
 
   TaskModel({
     required this.title,
-    required this.folder,
+    required this.folderId,
     this.completed = false,
     this.id,
     String? description,
@@ -29,7 +29,7 @@ class TaskModel {
   factory TaskModel.fromEntity(Task entity) {
     return TaskModel(
       id: entity.id,
-      folder: entity.folder,
+      folderId: entity.folderId,
       title: entity.title,
       description: entity.description,
       completed: entity.completed,
@@ -42,7 +42,7 @@ class TaskModel {
   Task toEntity() {
     return Task()
       ..id = id
-      ..folder = folder
+      ..folderId = folderId
       ..title = title
       ..description = description
       ..completed = completed
@@ -55,21 +55,30 @@ class TaskModel {
     int? id,
     String? title,
     String? description,
-    IsarLink<Folder>? folder,
+    int? folderId,
     bool? completed,
     DateTime? completedDate,
     DateTime? lastModified,
     DateTime? created,
   }) {
+    if (completedDate == DateTime(0)) {
+      completedDate = null;
+      this.completedDate = null;
+    }
     return TaskModel(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
-      folder: folder ?? this.folder,
+      folderId: folderId ?? this.folderId,
       completed: completed ?? this.completed,
       completedDate: completedDate ?? this.completedDate,
       lastModified: lastModified ?? this.lastModified,
       created: created ?? this.created,
     );
+  }
+
+  @override
+  String toString() {
+    return 'TaskModel(id: $id, title: $title, description: $description, folderId: $folderId, completed: $completed, completedDate: $completedDate, lastModified: $lastModified, created: $created)';
   }
 }

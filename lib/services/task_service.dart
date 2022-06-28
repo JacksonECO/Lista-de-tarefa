@@ -29,9 +29,17 @@ class TaskService {
   Future<void> update(TaskModel task) async {
     final connection = await _database.openConnectionIsa();
     await connection.writeTxn((isar) async {
-      await isar.tasks.put(
-        task.copyWith(lastModified: DateTime.now()).toEntity(),
-      );
+      bool completedOlder = (await isar.tasks.get(task.id!))!.completed;
+
+      if (completedOlder == task.completed) {
+        await isar.tasks.put(task.copyWith(lastModified: DateTime.now()).toEntity());
+      } else if (completedOlder) {
+        // true -> false
+        await isar.tasks.put(task.copyWith(completedDate: DateTime(0), lastModified: DateTime.now()).toEntity());
+      } else {
+        // false -> true
+        await isar.tasks.put(task.copyWith(completedDate: DateTime.now(), lastModified: DateTime.now()).toEntity());
+      }
     });
   }
 
@@ -47,7 +55,7 @@ class TaskService {
 
   Future<List<TaskModel>> getTaskByFolder(FolderModel folder) async {
     final connection = await _database.openConnectionIsa();
-    final get = await connection.tasks.filter().folder((q) => q.idEqualTo(folder.id!)).findAll();
+    final get = await connection.tasks.filter().folderIdEqualTo(folder.id!).findAll();
     return get.map(TaskModel.fromEntity).toList();
   }
 }

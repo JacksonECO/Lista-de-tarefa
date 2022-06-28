@@ -7,7 +7,7 @@ class Task {
   @Id()
   int? id;
 
-  IsarLink<Folder> folder = IsarLink<Folder>();
+  late final int folderId;
 
   late String title;
   late String? description;

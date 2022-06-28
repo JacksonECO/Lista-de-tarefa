@@ -9,7 +9,9 @@ class FolderController {
 
   Future<List<FolderModel>> getAllFolder() async {
     try {
-      return _service.getAll();
+      var list = await _service.getAll();
+      list.sort((a, b) => a.title.compareTo(b.title));
+      return list;
     } catch (e, s) {
       log('Error on get all folder', name: 'FolderController', error: e, stackTrace: s);
       return [];

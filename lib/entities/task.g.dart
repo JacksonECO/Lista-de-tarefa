@@ -15,20 +15,21 @@ extension GetTaskCollection on Isar {
 const TaskSchema = CollectionSchema(
   name: 'Task',
   schema:
-      '{"name":"Task","idName":"id","properties":[{"name":"completed","type":"Bool"},{"name":"completedDate","type":"Long"},{"name":"created","type":"Long"},{"name":"description","type":"String"},{"name":"lastModified","type":"Long"},{"name":"title","type":"String"}],"indexes":[],"links":[{"name":"folder","target":"Folder"}]}',
+      '{"name":"Task","idName":"id","properties":[{"name":"completed","type":"Bool"},{"name":"completedDate","type":"Long"},{"name":"created","type":"Long"},{"name":"description","type":"String"},{"name":"folderId","type":"Long"},{"name":"lastModified","type":"Long"},{"name":"title","type":"String"}],"indexes":[],"links":[]}',
   idName: 'id',
   propertyIds: {
     'completed': 0,
     'completedDate': 1,
     'created': 2,
     'description': 3,
-    'lastModified': 4,
-    'title': 5
+    'folderId': 4,
+    'lastModified': 5,
+    'title': 6
   },
   listProperties: {},
   indexIds: {},
   indexValueTypes: {},
-  linkIds: {'folder': 0},
+  linkIds: {},
   backlinkLinkNames: {},
   getId: _taskGetId,
   setId: _taskSetId,
@@ -56,7 +57,7 @@ void _taskSetId(Task object, int id) {
 }
 
 List<IsarLinkBase> _taskGetLinks(Task object) {
-  return [object.folder];
+  return [];
 }
 
 void _taskSerializeNative(IsarCollection<Task> collection, IsarRawObject rawObj,
@@ -74,10 +75,12 @@ void _taskSerializeNative(IsarCollection<Task> collection, IsarRawObject rawObj,
     _description = IsarBinaryWriter.utf8Encoder.convert(value3);
   }
   dynamicSize += (_description?.length ?? 0) as int;
-  final value4 = object.lastModified;
-  final _lastModified = value4;
-  final value5 = object.title;
-  final _title = IsarBinaryWriter.utf8Encoder.convert(value5);
+  final value4 = object.folderId;
+  final _folderId = value4;
+  final value5 = object.lastModified;
+  final _lastModified = value5;
+  final value6 = object.title;
+  final _title = IsarBinaryWriter.utf8Encoder.convert(value6);
   dynamicSize += (_title.length) as int;
   final size = staticSize + dynamicSize;
 
@@ -89,8 +92,9 @@ void _taskSerializeNative(IsarCollection<Task> collection, IsarRawObject rawObj,
   writer.writeDateTime(offsets[1], _completedDate);
   writer.writeDateTime(offsets[2], _created);
   writer.writeBytes(offsets[3], _description);
-  writer.writeDateTime(offsets[4], _lastModified);
-  writer.writeBytes(offsets[5], _title);
+  writer.writeLong(offsets[4], _folderId);
+  writer.writeDateTime(offsets[5], _lastModified);
+  writer.writeBytes(offsets[6], _title);
 }
 
 Task _taskDeserializeNative(IsarCollection<Task> collection, int id,
@@ -100,10 +104,10 @@ Task _taskDeserializeNative(IsarCollection<Task> collection, int id,
   object.completedDate = reader.readDateTimeOrNull(offsets[1]);
   object.created = reader.readDateTime(offsets[2]);
   object.description = reader.readStringOrNull(offsets[3]);
+  object.folderId = reader.readLong(offsets[4]);
   object.id = id;
-  object.lastModified = reader.readDateTime(offsets[4]);
-  object.title = reader.readString(offsets[5]);
-  _taskAttachLinks(collection, id, object);
+  object.lastModified = reader.readDateTime(offsets[5]);
+  object.title = reader.readString(offsets[6]);
   return object;
 }
 
@@ -121,8 +125,10 @@ P _taskDeserializePropNative<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 5:
+      return (reader.readDateTime(offset)) as P;
+    case 6:
       return (reader.readString(offset)) as P;
     default:
       throw 'Illegal propertyIndex';
@@ -137,6 +143,7 @@ dynamic _taskSerializeWeb(IsarCollection<Task> collection, Task object) {
   IsarNative.jsObjectSet(
       jsObj, 'created', object.created.toUtc().millisecondsSinceEpoch);
   IsarNative.jsObjectSet(jsObj, 'description', object.description);
+  IsarNative.jsObjectSet(jsObj, 'folderId', object.folderId);
   IsarNative.jsObjectSet(jsObj, 'id', object.id);
   IsarNative.jsObjectSet(jsObj, 'lastModified',
       object.lastModified.toUtc().millisecondsSinceEpoch);
@@ -160,6 +167,8 @@ Task _taskDeserializeWeb(IsarCollection<Task> collection, dynamic jsObj) {
           .toLocal()
       : DateTime.fromMillisecondsSinceEpoch(0);
   object.description = IsarNative.jsObjectGet(jsObj, 'description');
+  object.folderId =
+      IsarNative.jsObjectGet(jsObj, 'folderId') ?? double.negativeInfinity;
   object.id = IsarNative.jsObjectGet(jsObj, 'id');
   object.lastModified = IsarNative.jsObjectGet(jsObj, 'lastModified') != null
       ? DateTime.fromMillisecondsSinceEpoch(
@@ -168,7 +177,6 @@ Task _taskDeserializeWeb(IsarCollection<Task> collection, dynamic jsObj) {
           .toLocal()
       : DateTime.fromMillisecondsSinceEpoch(0);
   object.title = IsarNative.jsObjectGet(jsObj, 'title') ?? '';
-  _taskAttachLinks(collection, IsarNative.jsObjectGet(jsObj, 'id'), object);
   return object;
 }
 
@@ -192,6 +200,9 @@ P _taskDeserializePropWeb<P>(Object jsObj, String propertyName) {
           : DateTime.fromMillisecondsSinceEpoch(0)) as P;
     case 'description':
       return (IsarNative.jsObjectGet(jsObj, 'description')) as P;
+    case 'folderId':
+      return (IsarNative.jsObjectGet(jsObj, 'folderId') ??
+          double.negativeInfinity) as P;
     case 'id':
       return (IsarNative.jsObjectGet(jsObj, 'id')) as P;
     case 'lastModified':
@@ -208,9 +219,7 @@ P _taskDeserializePropWeb<P>(Object jsObj, String propertyName) {
   }
 }
 
-void _taskAttachLinks(IsarCollection col, int id, Task object) {
-  object.folder.attach(col, col.isar.folders, 'folder', id);
-}
+void _taskAttachLinks(IsarCollection col, int id, Task object) {}
 
 extension TaskQueryWhereSort on QueryBuilder<Task, Task, QWhere> {
   QueryBuilder<Task, Task, QAfterWhere> anyId() {
@@ -497,6 +506,53 @@ extension TaskQueryFilter on QueryBuilder<Task, Task, QFilterCondition> {
     ));
   }
 
+  QueryBuilder<Task, Task, QAfterFilterCondition> folderIdEqualTo(int value) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'folderId',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> folderIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'folderId',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> folderIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'folderId',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> folderIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'folderId',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+    ));
+  }
+
   QueryBuilder<Task, Task, QAfterFilterCondition> idIsNull() {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.isNull,
@@ -702,16 +758,7 @@ extension TaskQueryFilter on QueryBuilder<Task, Task, QFilterCondition> {
   }
 }
 
-extension TaskQueryLinks on QueryBuilder<Task, Task, QFilterCondition> {
-  QueryBuilder<Task, Task, QAfterFilterCondition> folder(
-      FilterQuery<Folder> q) {
-    return linkInternal(
-      isar.folders,
-      q,
-      'folder',
-    );
-  }
-}
+extension TaskQueryLinks on QueryBuilder<Task, Task, QFilterCondition> {}
 
 extension TaskQueryWhereSortBy on QueryBuilder<Task, Task, QSortBy> {
   QueryBuilder<Task, Task, QAfterSortBy> sortByCompleted() {
@@ -744,6 +791,14 @@ extension TaskQueryWhereSortBy on QueryBuilder<Task, Task, QSortBy> {
 
   QueryBuilder<Task, Task, QAfterSortBy> sortByDescriptionDesc() {
     return addSortByInternal('description', Sort.desc);
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortByFolderId() {
+    return addSortByInternal('folderId', Sort.asc);
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortByFolderIdDesc() {
+    return addSortByInternal('folderId', Sort.desc);
   }
 
   QueryBuilder<Task, Task, QAfterSortBy> sortById() {
@@ -804,6 +859,14 @@ extension TaskQueryWhereSortThenBy on QueryBuilder<Task, Task, QSortThenBy> {
     return addSortByInternal('description', Sort.desc);
   }
 
+  QueryBuilder<Task, Task, QAfterSortBy> thenByFolderId() {
+    return addSortByInternal('folderId', Sort.asc);
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> thenByFolderIdDesc() {
+    return addSortByInternal('folderId', Sort.desc);
+  }
+
   QueryBuilder<Task, Task, QAfterSortBy> thenById() {
     return addSortByInternal('id', Sort.asc);
   }
@@ -847,6 +910,10 @@ extension TaskQueryWhereDistinct on QueryBuilder<Task, Task, QDistinct> {
     return addDistinctByInternal('description', caseSensitive: caseSensitive);
   }
 
+  QueryBuilder<Task, Task, QDistinct> distinctByFolderId() {
+    return addDistinctByInternal('folderId');
+  }
+
   QueryBuilder<Task, Task, QDistinct> distinctById() {
     return addDistinctByInternal('id');
   }
@@ -876,6 +943,10 @@ extension TaskQueryProperty on QueryBuilder<Task, Task, QQueryProperty> {
 
   QueryBuilder<Task, String?, QQueryOperations> descriptionProperty() {
     return addPropertyNameInternal('description');
+  }
+
+  QueryBuilder<Task, int, QQueryOperations> folderIdProperty() {
+    return addPropertyNameInternal('folderId');
   }
 
   QueryBuilder<Task, int?, QQueryOperations> idProperty() {

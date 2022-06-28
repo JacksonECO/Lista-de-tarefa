@@ -46,4 +46,9 @@ class FolderModel {
       created: created ?? this.created,
     );
   }
+
+  @override
+  String toString() {
+    return 'FolderModel(id: $id, title: $title, description: $description, created: $created)';
+  }
 }
