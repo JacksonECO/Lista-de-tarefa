@@ -3,11 +3,32 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lista_de_tarefa/view_models/task_model.dart';
 
 void main() {
-  group('Testando o Construtor do FolderModel', () {
-    testWidgets('Criando TaskModel Simples', (tester) async {
-      final idFolder = faker.randomGenerator.integer(1000);
-      final title = faker.lorem.word();
+  final id = faker.randomGenerator.integer(1000);
+  final idFolder = faker.randomGenerator.integer(1000);
+  final title = faker.lorem.word();
+  final description = faker.lorem.sentence();
+  final created = faker.date.dateTime();
+  final lastModified = faker.date.dateTime();
+  final completedDate = faker.date.dateTime();
+  final completed = faker.randomGenerator.boolean();
 
+  late TaskModel folder;
+
+  setUp(() {
+    folder = TaskModel(
+      id: id,
+      folderId: idFolder,
+      title: title,
+      description: description,
+      created: created,
+      lastModified: lastModified,
+      completedDate: completedDate,
+      completed: completed,
+    );
+  });
+
+  group('Testando o Construtor do FolderModel', () {
+    testWidgets('Garantindo a criação de um TaskModel Simples', (tester) async {
       final folder = TaskModel(
         folderId: idFolder,
         title: title,
@@ -17,21 +38,17 @@ void main() {
       expect(folder.title, title);
     });
 
-    testWidgets('Criando FolderModel com descrição vazia ""', (tester) async {
-      final title = faker.lorem.word();
-      final idFolder = faker.randomGenerator.integer(1000);
-
-      final folder = TaskModel(
+    testWidgets('Garantindo a criação de um FolderModel com descrição vazia ', (tester) async {
+      final _folder = TaskModel(
         folderId: idFolder,
         title: title,
         description: '',
       );
 
-      expect(folder.description, isNull);
+      expect(_folder.description, isNull);
     });
 
-    testWidgets('Criando FolderModel com title vazio ""', (tester) async {
-      final idFolder = faker.randomGenerator.integer(1000);
+    testWidgets('Garantindo a criação de um FolderModel com title vazio "" gere um erro', (tester) async {
       expect(
           () => TaskModel(
                 folderId: idFolder,
@@ -42,60 +59,39 @@ void main() {
   });
 
   group('Testando a integração com a Entity do FolderModel', () {
-    testWidgets('Testando toEntity e fromEntity', (tester) async {
-      final id = faker.randomGenerator.integer(1000);
-      final idFolder = faker.randomGenerator.integer(1000);
-      final title = faker.lorem.word();
-      final description = faker.lorem.sentence();
-      final date = faker.date.dateTime();
-      final date1 = faker.date.dateTime();
-      final date2 = faker.date.dateTime();
-      final completed = faker.randomGenerator.boolean();
+    testWidgets('Garantir o funcionamento do toEntity e fromEntity', (tester) async {
+      final folderEntity = folder.toEntity();
 
-      final folder = TaskModel(
-        id: id,
-        folderId: idFolder,
-        title: title,
-        description: description,
-        created: date,
-        lastModified: date1,
-        completedDate: date2,
-        completed: completed,
-      ).toEntity();
+      expect(folderEntity.id, id);
+      expect(folderEntity.folderId, idFolder);
+      expect(folderEntity.title, title);
+      expect(folderEntity.description, description);
+      expect(folderEntity.created, created);
+      expect(folderEntity.lastModified, lastModified);
+      expect(folderEntity.completedDate, completedDate);
+      expect(folderEntity.completed, completed);
 
-      expect(folder.id, id);
-      expect(folder.folderId, idFolder);
-      expect(folder.title, title);
-      expect(folder.description, description);
-      expect(folder.created, date);
-      expect(folder.lastModified, date1);
-      expect(folder.completedDate, date2);
-      expect(folder.completed, completed);
-
-      final folderFromEntity = TaskModel.fromEntity(folder);
+      final folderFromEntity = TaskModel.fromEntity(folderEntity);
 
       expect(folderFromEntity.id, id);
       expect(folderFromEntity.folderId, idFolder);
       expect(folderFromEntity.title, title);
       expect(folderFromEntity.description, description);
-      expect(folderFromEntity.created, date);
-      expect(folderFromEntity.lastModified, date1);
-      expect(folderFromEntity.completedDate, date2);
+      expect(folderFromEntity.created, created);
+      expect(folderFromEntity.lastModified, lastModified);
+      expect(folderFromEntity.completedDate, completedDate);
       expect(folderFromEntity.completed, completed);
     });
 
-    testWidgets('Convertendo para Entity sem datas', (tester) async {
-      final idFolder = faker.randomGenerator.integer(1000);
-      final title = faker.lorem.word();
-      final date = faker.date.dateTime();
+    testWidgets('Garantir erro ao converter para Entity sem datas', (tester) async {
       var erro;
 
       try {
         TaskModel(
           folderId: idFolder,
           title: title,
-          // lastModified: date,
-          created: date,
+          // lastModified: lastModified,
+          created: created,
         ).toEntity();
       } catch (e) {
         erro = e.toString();
@@ -104,13 +100,12 @@ void main() {
       expect(erro, isNotNull);
       erro = null;
 
-
       try {
         TaskModel(
           folderId: idFolder,
           title: title,
-          lastModified: date,
-          // created: date,
+          lastModified: lastModified,
+          // created: created,
         ).toEntity();
       } catch (e) {
         erro = e.toString();
@@ -121,90 +116,50 @@ void main() {
   });
 
   group('Testando método copyWith do FolderModel', () {
-    testWidgets('Passando os dados no método', (tester) async {
-      var id = faker.randomGenerator.integer(1000);
-      var idFolder = faker.randomGenerator.integer(1000);
-      var title = faker.lorem.word();
-      var description = faker.lorem.sentence();
-      var date = faker.date.dateTime();
-      var date1 = faker.date.dateTime();
-      var date2 = faker.date.dateTime();
-      var completed = faker.randomGenerator.boolean();
+    testWidgets('Garantir o funcionamento do copyWith padrão', (tester) async {
+      final _id = faker.randomGenerator.integer(1000);
+      final _idFolder = faker.randomGenerator.integer(1000);
+      final _title = faker.lorem.word();
+      final _description = faker.lorem.sentence();
+      final _created = faker.date.dateTime();
+      final _lastModified = faker.date.dateTime();
+      final _completedDate = faker.date.dateTime();
+      final _completed = faker.randomGenerator.boolean();
 
-      var folder = TaskModel(
-        id: id,
-        folderId: idFolder,
-        title: title,
-        description: description,
-        created: date,
-        lastModified: date1,
-        completedDate: date2,
-        completed: completed,
+      var _folder = folder.copyWith(
+        id: _id,
+        folderId: _idFolder,
+        title: _title,
+        description: _description,
+        created: _created,
+        lastModified: _lastModified,
+        completedDate: _completedDate,
+        completed: _completed,
       );
 
-      expect(folder.id, id);
-      expect(folder.folderId, idFolder);
-      expect(folder.title, title);
-      expect(folder.description, description);
-      expect(folder.created, date);
-      expect(folder.lastModified, date1);
-      expect(folder.completedDate, date2);
-      expect(folder.completed, completed);
+      expect(_folder.id, _id);
+      expect(_folder.folderId, _idFolder);
+      expect(_folder.title, _title);
+      expect(_folder.description, _description);
+      expect(_folder.created, _created);
+      expect(_folder.lastModified, _lastModified);
+      expect(_folder.completedDate, _completedDate);
+      expect(_folder.completed, _completed);
 
-      folder = folder.copyWith();
+      _folder = _folder.copyWith();
 
-      expect(folder.id, id);
-      expect(folder.folderId, idFolder);
-      expect(folder.title, title);
-      expect(folder.description, description);
-      expect(folder.created, date);
-      expect(folder.lastModified, date1);
-      expect(folder.completedDate, date2);
-      expect(folder.completed, completed);
-
-      id = faker.randomGenerator.integer(1000);
-      idFolder = faker.randomGenerator.integer(1000);
-      title = faker.lorem.word();
-      description = faker.lorem.sentence();
-      date = faker.date.dateTime();
-      date1 = faker.date.dateTime();
-      date2 = faker.date.dateTime();
-      completed = faker.randomGenerator.boolean();
-
-      folder = folder.copyWith(
-        id: id,
-        folderId: idFolder,
-        title: title,
-        description: description,
-        created: date,
-        lastModified: date1,
-        completedDate: date2,
-        completed: completed,
-      );
-
-      expect(folder.id, id);
-      expect(folder.folderId, idFolder);
-      expect(folder.title, title);
-      expect(folder.description, description);
-      expect(folder.created, date);
-      expect(folder.lastModified, date1);
-      expect(folder.completedDate, date2);
-      expect(folder.completed, completed);
+      expect(_folder.id, _id);
+      expect(_folder.folderId, _idFolder);
+      expect(_folder.title, _title);
+      expect(_folder.description, _description);
+      expect(_folder.created, _created);
+      expect(_folder.lastModified, _lastModified);
+      expect(_folder.completedDate, _completedDate);
+      expect(_folder.completed, _completed);
     });
 
-    testWidgets('Testando método copyWith para remoção do completedDate', (tester) async {
-      final idFolder = faker.randomGenerator.integer(1000);
-      final title = faker.lorem.word();
-      final date = faker.date.dateTime();
+    testWidgets('Garantir a remoção do completedDate usando o copyWith', (tester) async {
       final zero = DateTime(0);
-
-      final folder = TaskModel(
-        folderId: idFolder,
-        title: title,
-        completedDate: date,
-        lastModified: date,
-        created: date,
-      );
 
       final copyWith = folder.copyWith(
         completedDate: zero,
@@ -218,34 +173,16 @@ void main() {
     });
   });
 
-  test('Testando método toString', () {
-    final id = faker.randomGenerator.integer(1000);
-    final idFolder = faker.randomGenerator.integer(1000);
-    final title = faker.lorem.word();
-    final description = faker.lorem.sentence();
-    final date = faker.date.dateTime();
-    final date1 = faker.date.dateTime();
-    final date2 = faker.date.dateTime();
-    final completed = faker.randomGenerator.boolean();
+  test('Garantir o funcionamento do toString', () {
+    final folderString = folder.toString();
 
-    final folder = TaskModel(
-      id: id,
-      folderId: idFolder,
-      title: title,
-      description: description,
-      created: date,
-      lastModified: date1,
-      completedDate: date2,
-      completed: completed,
-    ).toString();
-
-    expect(folder.contains(id.toString()), isTrue);
-    expect(folder.contains(idFolder.toString()), isTrue);
-    expect(folder.contains(title), isTrue);
-    expect(folder.contains(description), isTrue);
-    expect(folder.contains(date.toString()), isTrue);
-    expect(folder.contains(date1.toString()), isTrue);
-    expect(folder.contains(date2.toString()), isTrue);
-    expect(folder.contains(completed.toString()), isTrue);
+    expect(folderString.contains(id.toString()), isTrue);
+    expect(folderString.contains(idFolder.toString()), isTrue);
+    expect(folderString.contains(title), isTrue);
+    expect(folderString.contains(description), isTrue);
+    expect(folderString.contains(created.toString()), isTrue);
+    expect(folderString.contains(lastModified.toString()), isTrue);
+    expect(folderString.contains(completedDate.toString()), isTrue);
+    expect(folderString.contains(completed.toString()), isTrue);
   });
 }

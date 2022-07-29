@@ -61,21 +61,12 @@ class _FolderPageState extends State<FolderPage> {
                       ),
                     ),
                     onTap: () async {
-                      final refresh =
-                          await Navigator.pushNamed<bool?>(context, '/task/', arguments: snapshot.data![index]);
+                      final refresh = await Navigator.pushNamed(context, '/task/', arguments: snapshot.data![index]);
                       if (refresh == true) {
                         setState(() {});
                       }
                     },
-                  )
-                  // ListTile(
-                  //   focusColor: Colors.transparent,
-                  //   title: Text(snapshot.data![index].title),
-                  //   onTap: () {
-                  //     Navigator.pushNamed(context, '/task/', arguments: snapshot.data![index]);
-                  //   },
-                  // ),
-                  );
+                  ));
             },
           );
         },
