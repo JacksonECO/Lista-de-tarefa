@@ -51,4 +51,11 @@ class FolderModel {
   String toString() {
     return 'FolderModel(id: $id, title: $title, description: $description, created: $created)';
   }
+
+  @override
+  bool operator ==(covariant FolderModel other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id && other.title == title && other.description == description && other.created == created;
+  }
 }

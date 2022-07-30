@@ -42,10 +42,9 @@ class MockFolderController extends _i1.Mock implements _i4.FolderController {
           returnValue: Future<List<_i2.FolderModel>>.value(<_i2.FolderModel>[]))
       as _i5.Future<List<_i2.FolderModel>>);
   @override
-  _i5.Future<void> deleteFolder(_i2.FolderModel? folder) =>
+  _i5.Future<bool> deleteFolder(_i2.FolderModel? folder) =>
       (super.noSuchMethod(Invocation.method(#deleteFolder, [folder]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
+          returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
 }
 
 /// A class which mocks [FolderCreateController].
@@ -58,12 +57,11 @@ class MockFolderCreateController extends _i1.Mock
   }
 
   @override
-  _i5.Future<void> create({String? title, String? description}) =>
+  _i5.Future<bool> create({String? title, String? description}) =>
       (super.noSuchMethod(
           Invocation.method(
               #create, [], {#title: title, #description: description}),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
+          returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
 }
 
 /// A class which mocks [TaskController].

@@ -18,11 +18,13 @@ class FolderController {
     }
   }
 
-  Future<void> deleteFolder(FolderModel folder) async {
+  Future<bool> deleteFolder(FolderModel folder) async {
     try {
       await _service.delete(folder.id!);
+      return true;
     } catch (e, s) {
       log('Error on delete folder', name: 'FolderController', error: e, stackTrace: s);
+      return false;
     }
   }
 }

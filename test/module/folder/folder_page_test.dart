@@ -9,7 +9,6 @@ import 'package:lista_de_tarefa/module/folder/folder_page.dart';
 import 'package:lista_de_tarefa/module/task/task_controller.dart';
 import 'package:lista_de_tarefa/module/task/task_page.dart';
 import 'package:lista_de_tarefa/services/folder_service.dart';
-import 'package:lista_de_tarefa/view_models/task_model.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 
@@ -18,7 +17,7 @@ import 'folder_page_test.mocks.dart';
 @GenerateMocks(
   [FolderController, FolderCreateController, TaskController],
   customMocks: [
-    MockSpec<NavigatorObserver>(returnNullOnMissingStub: false),
+    MockSpec<NavigatorObserver>(returnNullOnMissingStub: true),
   ],
 )
 void main() {
@@ -27,7 +26,7 @@ void main() {
   setUp(() {});
 
   testWidgets('Garantir abertura da FolderPage corretamente', (tester) async {
-    String nameTitle = faker.conference.name();
+    String nameTitle = faker.lorem.word();
 
     when(folderControllerMock.getAllFolder()).thenAnswer(
       (_) async => <FolderModel>[
@@ -86,6 +85,8 @@ void main() {
           switch (settings.name) {
             case '/folder/create/':
               return nextRoute;
+            default:
+              throw 'Route is anonymous';
           }
         }));
 
@@ -133,6 +134,8 @@ void main() {
           switch (settings.name) {
             case '/task/':
               return nextRoute;
+            default:
+              throw 'Route is anonymous';
           }
         }));
 
@@ -151,5 +154,4 @@ void main() {
     final folderCreatePage = find.byType(TaskPage);
     expect(folderCreatePage, findsOneWidget);
   });
-
 }

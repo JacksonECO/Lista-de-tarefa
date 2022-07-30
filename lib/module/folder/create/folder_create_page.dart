@@ -58,10 +58,15 @@ class _FolderCreatePageState extends State<FolderCreatePage> {
               ),
               const SizedBox(height: 35),
               ButtonLoading(
-                onTap: () => widget.controller.create(
-                  title: _titleController.text,
-                  description: _descriptionController.text,
-                ),
+                onTap: () async {
+                  final response = await widget.controller.create(
+                    title: _titleController.text,
+                    description: _descriptionController.text,
+                  );
+                  if(response == true) {
+                    Navigator.pop(context);
+                  }
+                },
                 text: 'Salvar',
               ),
             ],
