@@ -14,6 +14,7 @@ class FolderCreatePage extends StatefulWidget {
 class _FolderCreatePageState extends State<FolderCreatePage> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -30,46 +31,52 @@ class _FolderCreatePageState extends State<FolderCreatePage> {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
-            children: [
-              TextFormField(
-                validator: Validatorless.required('Titulo obrigatório!'),
-                controller: _titleController,
-                decoration: InputDecoration(
-                  labelText: 'Título',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Flexible(
-                child: TextFormField(
-                  minLines: 3,
-                  maxLines: 1000,
-                  controller: _descriptionController,
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              children: [
+                TextFormField(
+                  validator: Validatorless.required('Titulo obrigatório!'),
+                  controller: _titleController,
                   decoration: InputDecoration(
-                    labelText: 'Descrição (opcional)',
+                    labelText: 'Título',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 35),
-              ButtonLoading(
-                onTap: () async {
-                  final response = await widget.controller.create(
-                    title: _titleController.text,
-                    description: _descriptionController.text,
-                  );
-                  if(response == true) {
-                    Navigator.pop(context);
-                  }
-                },
-                text: 'Salvar',
-              ),
-            ],
+                const SizedBox(height: 20),
+                Flexible(
+                  child: TextFormField(
+                    minLines: 3,
+                    maxLines: 1000,
+                    controller: _descriptionController,
+                    decoration: InputDecoration(
+                      labelText: 'Descrição (opcional)',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 35),
+                ButtonLoading(
+                  onTap: () async {
+                    if (_formKey.currentState?.validate() != true) return;
+
+                    final response = await widget.controller.create(
+                      title: _titleController.text,
+                      description: _descriptionController.text,
+                    );
+                    if (response == true) {
+                      Navigator.pop(context);
+                    }
+                  },
+                  text: 'Salvar',
+                ),
+              ],
+            ),
           ),
         ));
   }
