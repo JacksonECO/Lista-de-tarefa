@@ -81,4 +81,18 @@ class TaskModel {
   String toString() {
     return 'TaskModel(id: $id, title: $title, description: $description, folderId: $folderId, completed: $completed, completedDate: $completedDate, lastModified: $lastModified, created: $created)';
   }
+
+  @override
+  bool operator ==(covariant TaskModel other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.title == title &&
+        other.description == description &&
+        other.folderId == folderId &&
+        other.completed == completed &&
+        other.completedDate == completedDate &&
+        other.lastModified == lastModified &&
+        other.created == created;
+  }
 }

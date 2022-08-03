@@ -45,7 +45,7 @@ mixin _$TaskController on _TaskControllerBase, Store {
       AsyncAction('_TaskControllerBase.addTask', context: context);
 
   @override
-  Future<void> addTask(String title) {
+  Future<bool> addTask(String title) {
     return _$addTaskAsyncAction.run(() => super.addTask(title));
   }
 
@@ -53,7 +53,7 @@ mixin _$TaskController on _TaskControllerBase, Store {
       AsyncAction('_TaskControllerBase.deleteTask', context: context);
 
   @override
-  Future<void> deleteTask(int id) {
+  Future<bool> deleteTask(int id) {
     return _$deleteTaskAsyncAction.run(() => super.deleteTask(id));
   }
 
@@ -61,7 +61,7 @@ mixin _$TaskController on _TaskControllerBase, Store {
       AsyncAction('_TaskControllerBase.updateTask', context: context);
 
   @override
-  Future<void> updateTask(TaskModel task) {
+  Future<bool> updateTask(TaskModel task) {
     return _$updateTaskAsyncAction.run(() => super.updateTask(task));
   }
 

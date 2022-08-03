@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'dart:developer';
 
 import 'package:lista_de_tarefa/services/folder_service.dart';
@@ -33,37 +31,43 @@ abstract class _TaskControllerBase with Store {
   @observable
   bool _isViewCompleted = false;
   bool get isViewCompleted => _isViewCompleted;
-  set isViewCompleted(bool isViewCompleted) {
-    _isViewCompleted = isViewCompleted;
+  set isViewCompleted(bool value) {
+    _isViewCompleted = value;
     _refresh(getDatabase: false);
   }
 
   // var helper
   List<TaskModel>? _listTaskOlder;
-  bool forceGetDatabase = false;
+  bool _forceGetDatabase = false;
 
   @action
-  Future<void> addTask(String title) async {
-    if (title.isEmpty) return;
+  Future<bool> addTask(String title) async {
+    if (title.isEmpty) return false;
     try {
       await _service.create(TaskModel(title: title, folderId: folder.id!));
       _refresh();
+      return true;
     } catch (e, s) {
       log('Error on addTask: $title', name: 'TaskController', error: e, stackTrace: s);
+      return false;
     }
   }
 
   @action
-  Future<void> deleteTask(int id) async {
+  Future<bool> deleteTask(int id) async {
     try {
       await _service.delete(id);
+      _listTask.removeWhere((task) => task.id == id);
+
+      return true;
     } catch (e, s) {
       log('Error on deleteTask: $id', name: 'TaskController', error: e, stackTrace: s);
+      return false;
     }
   }
 
   @action
-  Future<void> updateTask(TaskModel task) async {
+  Future<bool> updateTask(TaskModel task) async {
     try {
       await _service.update(task);
 
@@ -72,19 +76,21 @@ abstract class _TaskControllerBase with Store {
       listRefresh[index] = task;
       listTask = listRefresh;
 
-      forceGetDatabase = true;
+      _forceGetDatabase = true;
+      return true;
     } catch (e, s) {
       log('Error on updateTask: ${task.title}', name: 'TaskController', error: e, stackTrace: s);
+      return false;
     }
   }
 
-  Future<void> _refresh({
+  Future<bool> _refresh({
     bool getDatabase = true,
     bool orderBy = true,
   }) async {
     try {
-      if (getDatabase || _listTaskOlder == null || forceGetDatabase) {
-        forceGetDatabase = false;
+      if (getDatabase || _listTaskOlder == null || _forceGetDatabase) {
+        _forceGetDatabase = false;
         _listTaskOlder = await _service.getTaskByFolder(folder);
       }
 
@@ -111,14 +117,16 @@ abstract class _TaskControllerBase with Store {
             }
           } catch (s) {
             log('Error on sort: ${a.toString()}, ${b.toString()}', name: 'TaskController', error: s);
+            return 0;
           }
-          return 0;
         }));
       }
 
       listTask = listTaskTemp;
+      return true;
     } catch (e, s) {
       log('Error on refresh: ${folder.id}', name: 'TaskController', error: e, stackTrace: s);
+      return false;
     }
   }
 }

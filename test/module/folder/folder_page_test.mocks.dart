@@ -73,14 +73,6 @@ class MockTaskController extends _i1.Mock implements _i7.TaskController {
   }
 
   @override
-  bool get forceGetDatabase =>
-      (super.noSuchMethod(Invocation.getter(#forceGetDatabase),
-          returnValue: false) as bool);
-  @override
-  set forceGetDatabase(bool? _forceGetDatabase) => super.noSuchMethod(
-      Invocation.setter(#forceGetDatabase, _forceGetDatabase),
-      returnValueForMissingStub: null);
-  @override
   _i2.FolderModel get folder => (super.noSuchMethod(Invocation.getter(#folder),
       returnValue: _FakeFolderModel_0()) as _i2.FolderModel);
   @override
@@ -100,28 +92,25 @@ class MockTaskController extends _i1.Mock implements _i7.TaskController {
           .noSuchMethod(Invocation.getter(#isViewCompleted), returnValue: false)
       as bool);
   @override
-  set isViewCompleted(bool? isViewCompleted) =>
-      super.noSuchMethod(Invocation.setter(#isViewCompleted, isViewCompleted),
+  set isViewCompleted(bool? value) =>
+      super.noSuchMethod(Invocation.setter(#isViewCompleted, value),
           returnValueForMissingStub: null);
   @override
   _i3.ReactiveContext get context =>
       (super.noSuchMethod(Invocation.getter(#context),
           returnValue: _FakeReactiveContext_1()) as _i3.ReactiveContext);
   @override
-  _i5.Future<void> addTask(String? title) =>
+  _i5.Future<bool> addTask(String? title) =>
       (super.noSuchMethod(Invocation.method(#addTask, [title]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
+          returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
   @override
-  _i5.Future<void> deleteTask(int? id) =>
+  _i5.Future<bool> deleteTask(int? id) =>
       (super.noSuchMethod(Invocation.method(#deleteTask, [id]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
+          returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
   @override
-  _i5.Future<void> updateTask(_i8.TaskModel? task) =>
+  _i5.Future<bool> updateTask(_i8.TaskModel? task) =>
       (super.noSuchMethod(Invocation.method(#updateTask, [task]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
+          returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
 }
 
 /// A class which mocks [NavigatorObserver].

@@ -105,7 +105,7 @@ void main() {
   });
 
   testWidgets('Garantir funcionamento do botão para abrir a Folder', (tester) async {
-    String nameTitle = faker.conference.name();
+    String nameTitle = faker.lorem.sentence();
     final folderModel = FolderModel(title: nameTitle, id: faker.randomGenerator.integer(1000));
     final navigatorObserverMock = MockNavigatorObserver();
     final taskControllerMock = MockTaskController();
@@ -113,8 +113,8 @@ void main() {
     when(folderControllerMock.getAllFolder()).thenAnswer(
       (_) async => <FolderModel>[
         folderModel,
-        FolderModel(title: faker.conference.name(), id: faker.randomGenerator.integer(1000)),
-        FolderModel(title: faker.conference.name(), id: faker.randomGenerator.integer(1000)),
+        FolderModel(title: faker.lorem.sentence(), id: faker.randomGenerator.integer(1000)),
+        FolderModel(title: faker.lorem.sentence(), id: faker.randomGenerator.integer(1000)),
       ],
     );
 
