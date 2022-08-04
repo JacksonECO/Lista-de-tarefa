@@ -38,6 +38,12 @@ void main() {
     expect(addTask, isTrue);
   });
 
+  test('Garante retorno negativo para titulo vazio no addTask', () async {
+    //? Uma vez que a criação envolve o banco de dados, não é possível testar totalmente funcionamento do método, apenas seu retorno.
+    final addTask = await controller.addTask('');
+    expect(addTask, isFalse);
+  });
+
   test('Garante retorno negativo caso tenha algum erro ao criar uma task (addTask)', () async {
     //? Uma vez que a criação envolve o banco de dados, não é possível testar totalmente funcionamento do método, apenas seu retorno.
     final title = task.title;

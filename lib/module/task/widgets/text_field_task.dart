@@ -21,7 +21,9 @@ class _TextFieldTaskWidgetState extends State<TextFieldTaskWidget> {
   }
 
   Future<void> onSend() async {
-    await widget.controller.addTask(_taskController.text);
+    final response = await widget.controller.addTask(_taskController.text);
+    if (!response) return;
+
     _taskController.clear();
     if (widget.scrollController.hasClients) {
       widget.scrollController.animateTo(
