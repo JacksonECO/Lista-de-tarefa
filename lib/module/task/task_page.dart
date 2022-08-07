@@ -6,19 +6,22 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 class TaskPage extends StatefulWidget {
   final TaskController controller;
+  final ScrollController scrollController;
 
-  const TaskPage({Key? key, required this.controller}) : super(key: key);
+  const TaskPage({
+    Key? key,
+    required this.controller,
+    required this.scrollController,
+  }) : super(key: key);
 
   @override
   State<TaskPage> createState() => _TaskPageState();
 }
 
 class _TaskPageState extends State<TaskPage> {
-  var scrollController = ScrollController();
-
   @override
   void dispose() {
-    scrollController.dispose();
+    widget.scrollController.dispose();
     super.dispose();
   }
 
@@ -34,8 +37,8 @@ class _TaskPageState extends State<TaskPage> {
               icon: Icon(widget.controller.isViewCompleted ? Icons.remove_circle_outline_sharp : Icons.check_circle),
               onPressed: () async {
                 if (!widget.controller.isViewCompleted) {
-                  scrollController.animateTo(
-                    scrollController.position.maxScrollExtent + MediaQuery.of(context).size.height * 0.6,
+                  widget.scrollController.animateTo(
+                    widget.scrollController.position.maxScrollExtent + MediaQuery.of(context).size.height * 0.6,
                     duration: const Duration(seconds: 1),
                     curve: Curves.easeInOutQuad,
                   );
@@ -50,7 +53,7 @@ class _TaskPageState extends State<TaskPage> {
         children: [
           Expanded(child: Observer(builder: (_) {
             return ListView.builder(
-              controller: scrollController,
+              controller: widget.scrollController,
               shrinkWrap: true,
               itemCount: widget.controller.listTask.length,
               itemBuilder: (context, index) {
@@ -65,7 +68,7 @@ class _TaskPageState extends State<TaskPage> {
           })),
           TextFieldTaskWidget(
             controller: widget.controller,
-            scrollController: scrollController,
+            scrollController: widget.scrollController,
           ),
         ],
       ),

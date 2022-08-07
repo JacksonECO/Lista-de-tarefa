@@ -122,10 +122,7 @@ void main() {
     when(taskControllerMock.listTask).thenReturn([]);
     when(taskControllerMock.isViewCompleted).thenReturn(false);
 
-    final nextRoute = MaterialPageRoute(
-        builder: (_) => TaskPage(
-              controller: taskControllerMock,
-            ));
+    final nextRoute = MaterialPageRoute(builder: (_) => Container(key: Key('nextPage_TaskPage')));
 
     await tester.pumpWidget(MaterialApp(
         home: FolderPage(controller: folderControllerMock),
@@ -151,7 +148,7 @@ void main() {
 
     verify(navigatorObserverMock.didPush(nextRoute, any)).called(1);
 
-    final folderCreatePage = find.byType(TaskPage);
+    final folderCreatePage = find.byKey(Key('nextPage_TaskPage'));
     expect(folderCreatePage, findsOneWidget);
   });
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:lista_de_tarefa/module/task/task_controller.dart';
 import 'package:lista_de_tarefa/module/task/task_page.dart';
@@ -15,6 +16,7 @@ class TaskModule extends Module {
         ChildRoute('/',
             child: (context, args) => TaskPage(
                   controller: Modular.get<TaskController>()..folder = args.data,
+                  scrollController: ScrollController(),
                 )),
       ];
 }
