@@ -7,7 +7,6 @@ import 'package:lista_de_tarefa/module/folder/create/folder_create_page.dart';
 import 'package:lista_de_tarefa/module/folder/folder_controller.dart';
 import 'package:lista_de_tarefa/module/folder/folder_page.dart';
 import 'package:lista_de_tarefa/module/task/task_controller.dart';
-import 'package:lista_de_tarefa/module/task/task_page.dart';
 import 'package:lista_de_tarefa/services/folder_service.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';

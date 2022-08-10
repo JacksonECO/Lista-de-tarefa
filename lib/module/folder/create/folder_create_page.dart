@@ -70,7 +70,7 @@ class _FolderCreatePageState extends State<FolderCreatePage> {
                       description: _descriptionController.text,
                     );
                     if (response == true) {
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                     }
                   },
                   text: 'Salvar',
