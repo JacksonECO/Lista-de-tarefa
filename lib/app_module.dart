@@ -5,15 +5,9 @@ import 'package:lista_de_tarefa/module/splash_page.dart';
 import 'package:lista_de_tarefa/module/task/task_module.dart';
 
 class AppModule extends Module {
-  late final Database database;
-
-  AppModule([Database? mock]) {
-    database = mock ?? Database();
-  }
-
   @override
   List<Bind> get binds => [
-        Bind.lazySingleton((i) => database),
+        Bind.lazySingleton((i) => Database()),
       ];
 
   @override

@@ -9,9 +9,8 @@ import 'package:flutter/animation.dart' as _i14;
 import 'package:flutter/foundation.dart' as _i7;
 import 'package:flutter/gestures.dart' as _i8;
 import 'package:flutter/rendering.dart' as _i16;
-import 'package:flutter/src/widgets/basic.dart' as _i17;
 import 'package:flutter/src/widgets/framework.dart' as _i18;
-import 'package:flutter/src/widgets/scroll_activity.dart' as _i19;
+import 'package:flutter/src/widgets/scroll_activity.dart' as _i17;
 import 'package:flutter/src/widgets/scroll_context.dart' as _i6;
 import 'package:flutter/src/widgets/scroll_controller.dart' as _i13;
 import 'package:flutter/src/widgets/scroll_metrics.dart' as _i9;
@@ -256,12 +255,12 @@ class MockScrollPosition extends _i1.Mock implements _i4.ScrollPosition {
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
   @override
-  _i17.AxisDirection get axisDirection =>
+  _i16.AxisDirection get axisDirection =>
       (super.noSuchMethod(Invocation.getter(#axisDirection),
-          returnValue: _i17.AxisDirection.up) as _i17.AxisDirection);
+          returnValue: _i16.AxisDirection.up) as _i16.AxisDirection);
   @override
-  _i17.Axis get axis => (super.noSuchMethod(Invocation.getter(#axis),
-      returnValue: _i17.Axis.horizontal) as _i17.Axis);
+  _i16.Axis get axis => (super.noSuchMethod(Invocation.getter(#axis),
+      returnValue: _i16.Axis.horizontal) as _i16.Axis);
   @override
   bool get outOfRange =>
       (super.noSuchMethod(Invocation.getter(#outOfRange), returnValue: false)
@@ -346,13 +345,13 @@ class MockScrollPosition extends _i1.Mock implements _i4.ScrollPosition {
       super.noSuchMethod(Invocation.method(#applyNewDimensions, []),
           returnValueForMissingStub: null);
   @override
-  _i12.Future<void> ensureVisible(_i18.RenderObject? object,
+  _i12.Future<void> ensureVisible(_i16.RenderObject? object,
           {double? alignment = 0.0,
           Duration? duration = Duration.zero,
           _i14.Curve? curve = _i14.Curves.ease,
           _i4.ScrollPositionAlignmentPolicy? alignmentPolicy =
               _i4.ScrollPositionAlignmentPolicy.explicit,
-          _i18.RenderObject? targetRenderObject}) =>
+          _i16.RenderObject? targetRenderObject}) =>
       (super.noSuchMethod(
               Invocation.method(#ensureVisible, [
                 object
@@ -408,7 +407,7 @@ class MockScrollPosition extends _i1.Mock implements _i4.ScrollPosition {
           Invocation.method(#drag, [details, dragCancelCallback]),
           returnValue: _FakeDrag_7()) as _i8.Drag);
   @override
-  void beginActivity(_i19.ScrollActivity? newActivity) =>
+  void beginActivity(_i17.ScrollActivity? newActivity) =>
       super.noSuchMethod(Invocation.method(#beginActivity, [newActivity]),
           returnValueForMissingStub: null);
   @override
@@ -464,7 +463,7 @@ class MockScrollPosition extends _i1.Mock implements _i4.ScrollPosition {
           double? maxScrollExtent,
           double? pixels,
           double? viewportDimension,
-          _i17.AxisDirection? axisDirection}) =>
+          _i16.AxisDirection? axisDirection}) =>
       (super.noSuchMethod(
           Invocation.method(#copyWith, [], {
             #minScrollExtent: minScrollExtent,

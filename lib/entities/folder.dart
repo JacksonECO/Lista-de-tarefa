@@ -4,8 +4,7 @@ part 'folder.g.dart';
 
 @Collection()
 class Folder {
-  @Id()
-  int? id;
+  Id? id = Isar.autoIncrement;
 
   late String title;
   late String? description;

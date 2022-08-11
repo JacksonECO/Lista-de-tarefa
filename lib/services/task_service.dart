@@ -16,8 +16,8 @@ class TaskService {
 
   Future<int> create(TaskModel task) async {
     final connection = await _database.openConnectionIsa();
-    return await connection.writeTxn<int>((isar) async {
-      return await isar.tasks.put(task
+    return await connection.writeTxn<int>(() async {
+      return await connection.tasks.put(task
           .copyWith(
             created: DateTime.now(),
             lastModified: DateTime.now(),
@@ -28,25 +28,26 @@ class TaskService {
 
   Future<void> update(TaskModel task) async {
     final connection = await _database.openConnectionIsa();
-    await connection.writeTxn((isar) async {
-      bool completedOlder = (await isar.tasks.get(task.id!))!.completed;
+    await connection.writeTxn(() async {
+      bool completedOlder = (await connection.tasks.get(task.id!))!.completed;
 
       if (completedOlder == task.completed) {
-        await isar.tasks.put(task.copyWith(lastModified: DateTime.now()).toEntity());
+        await connection.tasks.put(task.copyWith(lastModified: DateTime.now()).toEntity());
       } else if (completedOlder) {
         // true -> false
-        await isar.tasks.put(task.copyWith(completedDate: DateTime(0), lastModified: DateTime.now()).toEntity());
+        await connection.tasks.put(task.copyWith(completedDate: DateTime(0), lastModified: DateTime.now()).toEntity());
       } else {
         // false -> true
-        await isar.tasks.put(task.copyWith(completedDate: DateTime.now(), lastModified: DateTime.now()).toEntity());
+        await connection.tasks
+            .put(task.copyWith(completedDate: DateTime.now(), lastModified: DateTime.now()).toEntity());
       }
     });
   }
 
   Future<void> delete(int id) async {
     final connection = await _database.openConnectionIsa();
-    final isDelete = await connection.writeTxn((isar) async {
-      return await isar.tasks.delete(id);
+    final isDelete = await connection.writeTxn(() async {
+      return await connection.tasks.delete(id);
     });
     if (!isDelete) {
       throw Exception('Error deleting task');

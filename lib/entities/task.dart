@@ -4,8 +4,7 @@ part 'task.g.dart';
 
 @Collection()
 class Task {
-  @Id()
-  int? id;
+  Id? id = Isar.autoIncrement;
 
   late final int folderId;
 
