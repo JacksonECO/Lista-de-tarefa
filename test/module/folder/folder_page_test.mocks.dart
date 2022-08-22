@@ -4,13 +4,11 @@
 
 import 'dart:async' as _i5;
 
-import 'package:flutter/src/widgets/navigator.dart' as _i9;
-import 'package:lista_de_tarefa/module/folder/create/folder_create_controller.dart'
-    as _i6;
+import 'package:flutter/src/widgets/navigator.dart' as _i8;
 import 'package:lista_de_tarefa/module/folder/folder_controller.dart' as _i4;
-import 'package:lista_de_tarefa/module/task/task_controller.dart' as _i7;
+import 'package:lista_de_tarefa/module/task/task_controller.dart' as _i6;
 import 'package:lista_de_tarefa/services/folder_service.dart' as _i2;
-import 'package:lista_de_tarefa/services/task_service.dart' as _i8;
+import 'package:lista_de_tarefa/services/task_service.dart' as _i7;
 import 'package:mobx/mobx.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -47,27 +45,10 @@ class MockFolderController extends _i1.Mock implements _i4.FolderController {
           returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
 }
 
-/// A class which mocks [FolderCreateController].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockFolderCreateController extends _i1.Mock
-    implements _i6.FolderCreateController {
-  MockFolderCreateController() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i5.Future<bool> create({String? title, String? description}) =>
-      (super.noSuchMethod(
-          Invocation.method(
-              #create, [], {#title: title, #description: description}),
-          returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
-}
-
 /// A class which mocks [TaskController].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockTaskController extends _i1.Mock implements _i7.TaskController {
+class MockTaskController extends _i1.Mock implements _i6.TaskController {
   MockTaskController() {
     _i1.throwOnMissingStub(this);
   }
@@ -80,11 +61,11 @@ class MockTaskController extends _i1.Mock implements _i7.TaskController {
       super.noSuchMethod(Invocation.setter(#folder, folder),
           returnValueForMissingStub: null);
   @override
-  List<_i8.TaskModel> get listTask =>
+  List<_i7.TaskModel> get listTask =>
       (super.noSuchMethod(Invocation.getter(#listTask),
-          returnValue: <_i8.TaskModel>[]) as List<_i8.TaskModel>);
+          returnValue: <_i7.TaskModel>[]) as List<_i7.TaskModel>);
   @override
-  set listTask(List<_i8.TaskModel>? listTask) =>
+  set listTask(List<_i7.TaskModel>? listTask) =>
       super.noSuchMethod(Invocation.setter(#listTask, listTask),
           returnValueForMissingStub: null);
   @override
@@ -108,7 +89,7 @@ class MockTaskController extends _i1.Mock implements _i7.TaskController {
       (super.noSuchMethod(Invocation.method(#deleteTask, [id]),
           returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
   @override
-  _i5.Future<bool> updateTask(_i8.TaskModel? task) =>
+  _i5.Future<bool> updateTask(_i7.TaskModel? task) =>
       (super.noSuchMethod(Invocation.method(#updateTask, [task]),
           returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
 }
@@ -116,30 +97,30 @@ class MockTaskController extends _i1.Mock implements _i7.TaskController {
 /// A class which mocks [NavigatorObserver].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNavigatorObserver extends _i1.Mock implements _i9.NavigatorObserver {
+class MockNavigatorObserver extends _i1.Mock implements _i8.NavigatorObserver {
   @override
-  void didPush(_i9.Route<dynamic>? route, _i9.Route<dynamic>? previousRoute) =>
+  void didPush(_i8.Route<dynamic>? route, _i8.Route<dynamic>? previousRoute) =>
       super.noSuchMethod(Invocation.method(#didPush, [route, previousRoute]),
           returnValueForMissingStub: null);
   @override
-  void didPop(_i9.Route<dynamic>? route, _i9.Route<dynamic>? previousRoute) =>
+  void didPop(_i8.Route<dynamic>? route, _i8.Route<dynamic>? previousRoute) =>
       super.noSuchMethod(Invocation.method(#didPop, [route, previousRoute]),
           returnValueForMissingStub: null);
   @override
   void didRemove(
-          _i9.Route<dynamic>? route, _i9.Route<dynamic>? previousRoute) =>
+          _i8.Route<dynamic>? route, _i8.Route<dynamic>? previousRoute) =>
       super.noSuchMethod(Invocation.method(#didRemove, [route, previousRoute]),
           returnValueForMissingStub: null);
   @override
   void didReplace(
-          {_i9.Route<dynamic>? newRoute, _i9.Route<dynamic>? oldRoute}) =>
+          {_i8.Route<dynamic>? newRoute, _i8.Route<dynamic>? oldRoute}) =>
       super.noSuchMethod(
           Invocation.method(
               #didReplace, [], {#newRoute: newRoute, #oldRoute: oldRoute}),
           returnValueForMissingStub: null);
   @override
   void didStartUserGesture(
-          _i9.Route<dynamic>? route, _i9.Route<dynamic>? previousRoute) =>
+          _i8.Route<dynamic>? route, _i8.Route<dynamic>? previousRoute) =>
       super.noSuchMethod(
           Invocation.method(#didStartUserGesture, [route, previousRoute]),
           returnValueForMissingStub: null);

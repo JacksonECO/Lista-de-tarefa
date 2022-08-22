@@ -7,7 +7,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../help_test/help_pop_page.dart';
-import '../folder_page_test.mocks.dart';
+import 'folder_create_page_test.mocks.dart';
 
 @GenerateMocks(
   [FolderCreateController],
@@ -67,5 +67,7 @@ void main() {
 
     final backPage = pop.finder;
     expect(backPage, findsOneWidget);
+
+    expect(pop.value, isTrue);
   });
 }

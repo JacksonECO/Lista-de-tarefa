@@ -28,6 +28,7 @@ class _FolderCreatePageState extends State<FolderCreatePage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Nova Lista'),
+          centerTitle: true,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

@@ -53,7 +53,7 @@ class _TextFieldTaskWidgetState extends State<TextFieldTaskWidget> {
             blurStyle: BlurStyle.normal,
           ),
           BoxShadow(
-            color: Colors.red[100]!,
+            color: Colors.green[100]!,
             spreadRadius: 4,
             blurRadius: 70,
             blurStyle: BlurStyle.normal,

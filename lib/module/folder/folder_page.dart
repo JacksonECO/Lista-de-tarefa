@@ -57,15 +57,11 @@ class _FolderPageState extends State<FolderPage> {
                           snapshot.data![index].title,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 16),
                         ),
                       ),
                     ),
-                    onTap: () async {
-                      final refresh = await Navigator.pushNamed(context, '/task/', arguments: snapshot.data![index]);
-                      if (refresh == true) {
-                        setState(() {});
-                      }
-                    },
+                    onTap: () => Navigator.pushNamed(context, '/task/', arguments: snapshot.data![index]),
                   ));
             },
           );
