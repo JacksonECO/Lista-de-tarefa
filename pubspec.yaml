@@ -69,6 +69,7 @@ dev_dependencies:
   mockito: ^5.2.0
 
   icons_launcher: ^2.0.4
+  flutter_native_splash: ^2.2.8
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -140,3 +141,28 @@ icons_launcher:
     linux:
       enable: false
       image_path: 'assets/icon/round.png'
+
+
+flutter_native_splash:
+  # flutter pub run flutter_native_splash:create
+  color: "#000000"
+  #background_image: "assets/background.png"
+  image: 'assets/icon/splash.png'
+
+  # Android 12 handles the splash screen differently than previous versions.  Please visit
+  # https://developer.android.com/guide/topics/ui/splash-screen
+  # Following are Android 12 specific parameter.
+  # android_12:
+    # image: 'assets/icon/splash.png'
+    # color: "#000000"
+
+
+  # The android, ios and web parameters can be used to disable generating a splash screen on a given
+  # platform.
+  android: true
+  ios: false
+  web: false
+
+  # Deixando a barra de status e de navegação transparente [styles.xml]
+  # <item name="android:windowTranslucentStatus">true</item>
+  # <item name="android:windowTranslucentNavigation">true</item>
