@@ -68,6 +68,8 @@ dev_dependencies:
   faker: ^2.0.0
   mockito: ^5.2.0
 
+  icons_launcher: ^2.0.4
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -109,3 +111,32 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+
+icons_launcher:
+  # flutter pub get && flutter pub run icons_launcher:create
+  #image_path: 'assets/icon/round.png'
+  platforms:
+    android:
+      enable: true
+      image_path: 'assets/icon/round.png'
+      adaptive_background_color: '#00a8ec'
+      # adaptive_background_image: 'assets/ic_background.png'
+      adaptive_foreground_image: 'assets/icon/foreground.png'
+      # adaptive_round_image: 'assets/icon/round.png'
+    ios:
+      enable: false
+      image_path: 'assets/icon/border.png'
+    web:
+      enable: false
+      image_path: 'assets/icon/round.png'
+      favicon_path: 'assets/icon/foreground.png'
+    macos:
+      enable: false
+      image_path: 'assets/icon/round.png'
+    windows:
+      enable: false
+      image_path: 'assets/icon/round.png'
+    linux:
+      enable: false
+      image_path: 'assets/icon/round.png'
